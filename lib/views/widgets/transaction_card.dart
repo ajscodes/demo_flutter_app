@@ -15,14 +15,13 @@ class TransactionCard extends StatelessWidget {
     final amountColor = isIncome ? ColorConstants.incomeColor : ColorConstants.expenseColor;
     final prefix = isIncome ? '+' : '-';
     
-    // color of text in transaction is based on category like if income then green, if food then orange, fuel then yellow etc. also it's icon colors are same as this color
     final categoryColor = ColorConstants.getCategoryColor(transaction.category);
     final categoryIcon = ColorConstants.getCategoryIcon(transaction.category);
 
     return Card(
       elevation: 0,
-      color: ColorConstants.cardColor,
-      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      color: Colors.white,
+      margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 6.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16.0),
         side: BorderSide(color: Colors.grey.shade200),
@@ -56,34 +55,47 @@ class TransactionCard extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 4),
-            Text(
-              transaction.category,
-              style: TextStyle(
-                color: categoryColor,
-                fontWeight: FontWeight.w500,
+        subtitle: RichText(
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(
+            children: [
+              TextSpan(
+                text: transaction.category,
+                style: TextStyle(
+                  color: categoryColor,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 12,
+                ),
               ),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              DateFormat('MMM dd, yyyy').format(transaction.date),
-              style: TextStyle(
-                color: ColorConstants.textSecondary,
-                fontSize: 12,
+              const TextSpan(
+                text: '  •  ',
+                style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
-            ),
-          ],
-        ),
-        trailing: Text(
-          '$prefix\$${transaction.amount.toStringAsFixed(2)}',
-          style: TextStyle(
-            color: amountColor,
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
+              TextSpan(
+                text: DateFormat('MMM dd, yyyy').format(transaction.date),
+                style: const TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ),
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              '$prefix\$${transaction.amount.toStringAsFixed(2)}',
+              style: TextStyle(
+                color: amountColor,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(width: 8),
+            const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+          ],
         ),
       ),
     );

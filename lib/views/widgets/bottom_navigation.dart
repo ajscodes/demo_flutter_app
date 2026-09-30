@@ -29,19 +29,21 @@ class _BottomNavigationState extends State<BottomNavigation> {
       backgroundColor: ColorConstants.secondaryColor,
       body: _screens[_selectedIndex],
       
-      // Kept the Add button so you can still add transactions easily
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: ColorConstants.primaryColor,
-        child: const Icon(Icons.add, color: Colors.white),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddTransactionScreen(),
-            ),
-          );
-        },
-      ),
+      // Kept the Add button only for the home screen
+      floatingActionButton: _selectedIndex == 0
+          ? FloatingActionButton(
+              backgroundColor: Colors.blue.shade600,
+              child: const Icon(Icons.add, color: Colors.white, size: 28),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddTransactionScreen(),
+                  ),
+                );
+              },
+            )
+          : null,
       
       bottomNavigationBar: ClipRRect(
         borderRadius: const BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35)),
